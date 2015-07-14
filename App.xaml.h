@@ -9,13 +9,13 @@
 
 #include "App.g.h"
 
-namespace Microsoft
+namespace DwightGoins
 {
-	namespace Samples
+	namespace Utilities
 	{
 		namespace Kinect
 		{
-			namespace HDFaceBasics
+			namespace KinectFaceStudio
 			{
 				/// <summary>
 				/// Provides application-specific behavior to supplement the default Application class.

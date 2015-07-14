@@ -17,13 +17,13 @@ using namespace Platform;
 
 
 
-namespace Microsoft
+namespace DwightGoins
 {
-	namespace Samples
+	namespace Utilities
 	{
 		namespace Kinect
 		{
-			namespace HDFaceBasics
+			namespace KinectFaceStudio
 			{
 				/// <summary>
 				/// An empty page that can be used on its own or navigated to within a Frame.

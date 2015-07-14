@@ -1,8 +1,8 @@
 ﻿<Application
-    x:Class="Microsoft.Samples.Kinect.HDFaceBasics.App"
+    x:Class="DwightGoins.Utilities.Kinect.KinectFaceStudio.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Samples.Kinect.HDFaceBasics">
+    xmlns:local="using:DwightGoins.Utilities.Kinect.KinectFaceStudio">
 
     <Application.Resources>
         <ResourceDictionary>

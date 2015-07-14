@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="8C75A6DC-22B5-48BA-BEEA-2480700378DC" Publisher="CN=DwightAdmin" Version="1.0.0.0" />
+  <Identity Name="4FE11BE9-8F32-4168-A812-9B30D7B2BE6B" Publisher="CN=dngoins" Version="1.0.0.0" />
   <Properties>
-    <DisplayName>HDFaceBasics-SkinHairColor</DisplayName>
-    <PublisherDisplayName>Kinect for Windows Samples</PublisherDisplayName>
+    <DisplayName>KinectFaceStudio</DisplayName>
+    <PublisherDisplayName>Dwight Goins</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
@@ -14,8 +14,8 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Microsoft::Samples::Kinect::HDFaceBasics.App">
-      <m2:VisualElements DisplayName="HDFaceBasics-SkinHairColor" Description="Based on HDFaceBasics-XAML_CPP extends sample to all Skin and Hair Color sample" BackgroundColor="#464646" ForegroundText="light" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png">
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="DwightGoins::Utilities::Kinect::KinectFaceStudio.App">
+      <m2:VisualElements DisplayName="KinectFaceStudio" Description="Based on HDFaceBasics-XAML_CPP extends sample to support viewing mesh over video stream. Also allows for viewing which HD Face Vertex is corresponds to over the face." BackgroundColor="#464646" ForegroundText="light" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png">
         <m2:DefaultTile>
           <m2:ShowNameOnTiles>
             <m2:ShowOn Tile="square150x150Logo" />

@@ -7,7 +7,7 @@
 #include "pch.h"
 #include "MainPage.xaml.h"
 
-using namespace Microsoft::Samples::Kinect::HDFaceBasics;
+using namespace DwightGoins::Utilities::Kinect::KinectFaceStudio;
 
 using namespace Platform;
 using namespace Windows::ApplicationModel;

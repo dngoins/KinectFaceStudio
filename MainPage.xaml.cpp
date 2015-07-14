@@ -14,7 +14,7 @@
 #include <robuffer.h>
 #include <ppltasks.h>
 
-using namespace Microsoft::Samples::Kinect::HDFaceBasics;
+using namespace DwightGoins::Utilities::Kinect::KinectFaceStudio;
 
 using namespace Platform;
 using namespace Windows::Foundation;
@@ -159,7 +159,7 @@ void MainPage::OnNavigatedTo(NavigationEventArgs^ /* e */)
 	this->HDFaceRenderingPanel->StartRenderLoop();
 }
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::Page_Loaded(Platform::Object^ /* sender */, Windows::UI::Xaml::RoutedEventArgs^ /* e */)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::Page_Loaded(Platform::Object^ /* sender */, Windows::UI::Xaml::RoutedEventArgs^ /* e */)
 {
 	
 	this->InitializeHDFace();
@@ -168,11 +168,11 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::Page_Loaded(Platform::O
 
 }
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::InitializeKinectColor()
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::InitializeKinectColor()
 {
 	 msFrameReader = this->sensor->OpenMultiSourceFrameReader(FrameSourceTypes::BodyIndex | FrameSourceTypes::Color | FrameSourceTypes::Depth );
 
-	 msFrameReader->MultiSourceFrameArrived += ref new Windows::Foundation::TypedEventHandler<WindowsPreview::Kinect::MultiSourceFrameReader ^, WindowsPreview::Kinect::MultiSourceFrameArrivedEventArgs ^>(this, &Microsoft::Samples::Kinect::HDFaceBasics::MainPage::OnMultiSourceFrameArrived);
+	 msFrameReader->MultiSourceFrameArrived += ref new Windows::Foundation::TypedEventHandler<WindowsPreview::Kinect::MultiSourceFrameReader ^, WindowsPreview::Kinect::MultiSourceFrameArrivedEventArgs ^>(this, &DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::OnMultiSourceFrameArrived);
 
 	 
 
@@ -184,7 +184,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::InitializeKinectColor()
 /// <summary>
 /// Initialize Kinect object
 /// </summary>
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::InitializeHDFace()
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::InitializeHDFace()
 {	
 
 	this->bodySource = this->sensor->BodyFrameSource;
@@ -192,11 +192,11 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::InitializeHDFace()
     this->bodies = ref new Platform::Collections::Vector<Body^>(this->bodySource->BodyCount);
 
 	this->bodyReader = this->bodySource->OpenReader();
-	this->bodyReader->FrameArrived += ref new TypedEventHandler<WindowsPreview::Kinect::BodyFrameReader^, WindowsPreview::Kinect::BodyFrameArrivedEventArgs^>(this, &Microsoft::Samples::Kinect::HDFaceBasics::MainPage::BodyReader_FrameArrived);
+	this->bodyReader->FrameArrived += ref new TypedEventHandler<WindowsPreview::Kinect::BodyFrameReader^, WindowsPreview::Kinect::BodyFrameArrivedEventArgs^>(this, &DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::BodyReader_FrameArrived);
 
 	this->highDefinitionFaceFrameSource = ref new HighDefinitionFaceFrameSource(this->sensor);
 	this->highDefinitionFaceFrameReader = this->highDefinitionFaceFrameSource->OpenReader();
-	this->highDefinitionFaceFrameReader->FrameArrived += ref new TypedEventHandler<HighDefinitionFaceFrameReader^, HighDefinitionFaceFrameArrivedEventArgs^>(this, &Microsoft::Samples::Kinect::HDFaceBasics::MainPage::HDFaceReader_FrameArrived);
+	this->highDefinitionFaceFrameReader->FrameArrived += ref new TypedEventHandler<HighDefinitionFaceFrameReader^, HighDefinitionFaceFrameArrivedEventArgs^>(this, &DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::HDFaceReader_FrameArrived);
 
 	this->currentFaceModel = ref new FaceModel();
 	this->currentFaceAlignment = ref new FaceAlignment();
@@ -210,7 +210,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::InitializeHDFace()
 /// <summary>
 /// Sends the new deformed mesh to be drawn
 /// </summary>
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::UpdateFaceMesh()
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::UpdateFaceMesh()
 {
 	auto faceVertices = this->currentFaceModel->CalculateVerticesForAlignment(this->currentFaceAlignment);
 	Array<CameraSpacePoint>^ faceVerts = ref new Array<CameraSpacePoint> (faceVertices->Size);
@@ -240,7 +240,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::UpdateFaceMesh()
 /// <summary>
 /// Creates the status text message
 /// </summary>
-String^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::MakeStatusText()
+String^ DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::MakeStatusText()
 {
     auto text = L"Capture: " + this->currentCaptureStatusString + " Collection: " + this->currentCollectionStatusString + L", Tracking ID = " + this->currentTrackingId.ToString();
 	return text;
@@ -249,7 +249,7 @@ String^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::MakeStatusText()
 /// <summary>
 /// This event fires when a BodyFrame is ready for consumption
 /// </summary>
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::BodyReader_FrameArrived(BodyFrameReader^ sender, BodyFrameArrivedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::BodyReader_FrameArrived(BodyFrameReader^ sender, BodyFrameArrivedEventArgs^ e)
 {
     auto frameReference = e->FrameReference;
     {
@@ -301,7 +301,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::BodyReader_FrameArrived
 /// <summary>
 /// Returns the length of a vector from origin
 /// </summary>
-double Microsoft::Samples::Kinect::HDFaceBasics::MainPage::VectorLength(CameraSpacePoint point)
+double DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::VectorLength(CameraSpacePoint point)
 {
 	auto result = pow(point.X, 2) + pow(point.Y, 2) + pow(point.Z, 2);
 
@@ -313,7 +313,7 @@ double Microsoft::Samples::Kinect::HDFaceBasics::MainPage::VectorLength(CameraSp
 /// <summary>
 /// Finds the closest body from the sensor if any
 /// </summary>
-Body^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::FindClosestBody()
+Body^ DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::FindClosestBody()
 {
 	Body^ result = nullptr;
 
@@ -343,7 +343,7 @@ Body^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::FindClosestBody()
 /// <summary>
 /// Find if there is a body tracked with the given trackingId
 /// </summary>
-Body^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::FindBodyWithTrackingId(UINT64 trackingId)
+Body^ DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::FindBodyWithTrackingId(UINT64 trackingId)
 {
 	Body^ result = nullptr;
 
@@ -365,7 +365,7 @@ Body^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::FindBodyWithTrackingId
 /// <summary>
 /// This event is fired when a new HDFace frame is ready for consumption
 /// </summary>
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::HDFaceReader_FrameArrived(HighDefinitionFaceFrameReader^ sender, HighDefinitionFaceFrameArrivedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::HDFaceReader_FrameArrived(HighDefinitionFaceFrameReader^ sender, HighDefinitionFaceFrameArrivedEventArgs^ e)
 {
     auto frameReference = e->FrameReference;
 
@@ -389,7 +389,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::HDFaceReader_FrameArriv
 /// <summary>
 /// This event is fired when the FaceModelBuilder collection status has changed
 /// </summary>
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::FaceModelBuilder_CollectionStatusChanged( FaceModelBuilder^ sender, CollectionStatusChangedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::FaceModelBuilder_CollectionStatusChanged( FaceModelBuilder^ sender, CollectionStatusChangedEventArgs^ e)
 {
     FaceModelBuilderCollectionStatus newStatus = sender->CollectionStatus;      //Query the latest status
 
@@ -399,7 +399,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::FaceModelBuilder_Collec
 /// <summary>
 /// This event is fired when the FaceModelBuilder capture status has changed
 /// </summary>
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::FaceModelBuilder_CaptureStatusChanged( FaceModelBuilder^ sender, CaptureStatusChangedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::FaceModelBuilder_CaptureStatusChanged( FaceModelBuilder^ sender, CaptureStatusChangedEventArgs^ e)
 {
     FaceModelBuilderCaptureStatus newStatus = sender->CaptureStatus;
 
@@ -409,7 +409,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::FaceModelBuilder_Captur
 /// <summary>
 /// Start a face capture on clicking the button
 /// </summary>
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::StartCaptureButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::StartCaptureButton_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	this->StartCapture();
 }
@@ -418,7 +418,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::StartCaptureButton_Clic
 /// <summary>
 /// Start recording the data from the HDFace Frames
 /// </summary>
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::StartKStudioRecording(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::StartKStudioRecording(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 //	this->StartCapture();
 }
@@ -426,7 +426,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::StartKStudioRecording(P
 /// <summary>
 /// Cancel the current face capture operation
 /// </summary>
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::StopFaceCapture()
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::StopFaceCapture()
 {
 	if (this->currentModelCollectionOperation != nullptr)
 	{
@@ -445,7 +445,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::StopFaceCapture()
 /// <summary>
 /// Start a face capture operation
 /// </summary>
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::StartCapture()
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::StartCapture()
 {
 	if (this->currentModelCollectionOperation != nullptr)
 	{
@@ -453,8 +453,8 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::StartCapture()
 	}
 
 	this->hdFaceBuilder = this->highDefinitionFaceFrameSource->OpenModelBuilder(FaceModelBuilderAttributes::HairColor | FaceModelBuilderAttributes::SkinColor | FaceModelBuilderAttributes::None);
-    this->tokenCollectionStatusChanged = this->hdFaceBuilder->CollectionStatusChanged += ref new TypedEventHandler<FaceModelBuilder^, CollectionStatusChangedEventArgs^>(this, &Microsoft::Samples::Kinect::HDFaceBasics::MainPage::FaceModelBuilder_CollectionStatusChanged);
-    this->tokenCaptureStatusChanged = this->hdFaceBuilder->CaptureStatusChanged += ref new TypedEventHandler<FaceModelBuilder^, CaptureStatusChangedEventArgs^>(this, &Microsoft::Samples::Kinect::HDFaceBasics::MainPage::FaceModelBuilder_CaptureStatusChanged);
+    this->tokenCollectionStatusChanged = this->hdFaceBuilder->CollectionStatusChanged += ref new TypedEventHandler<FaceModelBuilder^, CollectionStatusChangedEventArgs^>(this, &DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::FaceModelBuilder_CollectionStatusChanged);
+    this->tokenCaptureStatusChanged = this->hdFaceBuilder->CaptureStatusChanged += ref new TypedEventHandler<FaceModelBuilder^, CaptureStatusChangedEventArgs^>(this, &DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::FaceModelBuilder_CaptureStatusChanged);
 
 	this->currentModelCollectionOperation = this->hdFaceBuilder->CollectFaceDataAsync();
     this->currentModelCollectionOperation->Completed = ref new AsyncOperationCompletedHandler<FaceModelData^>(
@@ -505,7 +505,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::StartCapture()
 	});
 }
 
-String^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::BuildCollectionStatusText( FaceModelBuilderCollectionStatus status )
+String^ DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::BuildCollectionStatusText( FaceModelBuilderCollectionStatus status )
 {
     String^ res = L"";
 	
@@ -542,7 +542,7 @@ String^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::BuildCollectionStatu
     return res;
 }
 
-String^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::GetCaptureStatusText(FaceModelBuilderCaptureStatus status)
+String^ DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::GetCaptureStatusText(FaceModelBuilderCaptureStatus status)
 {
     switch (status)
     {
@@ -565,7 +565,7 @@ String^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::GetCaptureStatusText
     return L"";
 }
 
-PropertySet^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::initColorList() {
+PropertySet^ DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::initColorList() {
 	 PropertySet^ colorList = ref new PropertySet();
 	 
 	 int key = 0;
@@ -712,7 +712,7 @@ PropertySet^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::initColorList()
 	return colorList;
 }
 
-String^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::getColorNameFromRgb(int r, int g, int b) 
+String^ DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::getColorNameFromRgb(int r, int g, int b) 
 {
 	auto colorList = this->initColorList();
 	ColorName^ closestMatch;
@@ -737,7 +737,7 @@ String^ Microsoft::Samples::Kinect::HDFaceBasics::MainPage::getColorNameFromRgb(
 	}
 }
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::GetDeforms()
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::GetDeforms()
 {
 	if (m_okToGetDeforms)
 	{
@@ -805,7 +805,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::GetDeforms()
 	}
 }
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::RecordData(Platform::Collections::Vector<String^> ^ data)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::RecordData(Platform::Collections::Vector<String^> ^ data)
 {
 	try{
 
@@ -826,7 +826,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::RecordData(Platform::Co
 }
 
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::RecordData(String^ data)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::RecordData(String^ data)
 {
 	try{
 			//task<void>(Windows::Storage::FileIO::AppendTextAsync(m_HDFaceData, data)).wait();
@@ -849,7 +849,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::RecordData(String^ data
 }
 
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::Page_Unloaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::Page_Unloaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	//RecordData(faceData);
 
@@ -866,7 +866,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::Page_Unloaded(Platform:
 }
 
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::OnMultiSourceFrameArrived(WindowsPreview::Kinect::MultiSourceFrameReader ^sender, WindowsPreview::Kinect::MultiSourceFrameArrivedEventArgs ^args)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::OnMultiSourceFrameArrived(WindowsPreview::Kinect::MultiSourceFrameReader ^sender, WindowsPreview::Kinect::MultiSourceFrameArrivedEventArgs ^args)
 {
 	int depthWidth = 0;
 	int depthHeight = 0;
@@ -1103,7 +1103,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::OnMultiSourceFrameArriv
 
 }
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::xScale_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::xScale_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
 {
 	if(nullptr != this->HDFaceRenderingPanel)
 	this->HDFaceRenderingPanel->SetScale(this->xScale->Value, this->yScale->Value);
@@ -1111,14 +1111,14 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::xScale_ValueChanged(Pla
 }
 
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::xTrans_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::xTrans_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e)
 {
 	if (nullptr != this->HDFaceRenderingPanel)
 		this->HDFaceRenderingPanel->SetTranslation(this->xTrans->Value, this->yTrans->Value);
 }
 
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::showMesh_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::showMesh_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	if (nullptr != showMesh)
 	{
@@ -1128,7 +1128,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::showMesh_Checked(Platfo
 }
 
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::showVideo_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::showVideo_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	if (nullptr != showVideo)
 	{
@@ -1138,7 +1138,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::showVideo_Checked(Platf
 }
 
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::showVideo_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::showVideo_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	if (nullptr != showVideo)
 	{
@@ -1148,7 +1148,7 @@ void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::showVideo_Click(Platfor
 }
 
 
-void Microsoft::Samples::Kinect::HDFaceBasics::MainPage::showMesh_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::showMesh_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 	if (nullptr != showMesh)
 	{

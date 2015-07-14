@@ -20,13 +20,13 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0c472021-5c54-47df-9beb-ec125cf597fe}</ProjectGuid>
-    <RootNamespace>Microsoft.Samples.Kinect.HDFaceBasics</RootNamespace>
+    <RootNamespace>DwightGoins.Utilities.Kinect.KinectFaceStudio</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
     <ApplicationTypeRevision>8.1</ApplicationTypeRevision>
-    <ProjectName>HDFaceBasics-SkinHairColor-XAML_CPP</ProjectName>
+    <ProjectName>KinectFaceStudio</ProjectName>
     <TargetPlatformVersion>10.0.10069.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10069.0</TargetPlatformMinVersion>
   </PropertyGroup>
@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <PackageCertificateKeyFile>HDFaceBasics-SkinHairColor-XAML_CPP_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>1E38E3007B07F4616FA49D5FBEE89EFF95367E53</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>KinectFaceStudio_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>F4B6F044BF415B35C07845BA160A4419F68A752E</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
@@ -133,8 +133,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="HDFaceBasics-SkinHairColor-XAML_CPP_TemporaryKey.pfx" />
-    <None Include="HDFaceBasics-XAML_CPP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Logo.png" />
@@ -176,6 +174,9 @@
     <ProjectReference Include="HDFaceVisualizer\HDFaceVisualizer.vcxproj">
       <Project>{53063db1-53c4-4149-b0fd-dd019114181e}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="KinectFaceStudio_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
