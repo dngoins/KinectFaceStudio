@@ -1,0 +1,11 @@
+﻿  compilation object save succeeded; see C:\Users\Dwight\Documents\Visual Studio 2013\Projects\HDFaceBasics-SkinHairColor-XAML_CPP\Debug\HDFaceVisualizer\HDFacePixelShader.cso
+  compilation object save succeeded; see C:\Users\Dwight\Documents\Visual Studio 2013\Projects\HDFaceBasics-SkinHairColor-XAML_CPP\Debug\HDFaceVisualizer\HDFaceVertexShader.cso
+  pch.cpp
+  DirectXPanelBase.cpp
+  HDFaceD3DPanel.cpp
+     Creating library C:\Users\Dwight\Documents\Visual Studio 2013\Projects\HDFaceBasics-SkinHairColor-XAML_CPP\Debug\HDFaceVisualizer\HDFaceXAMLVisualizer.lib and object C:\Users\Dwight\Documents\Visual Studio 2013\Projects\HDFaceBasics-SkinHairColor-XAML_CPP\Debug\HDFaceVisualizer\HDFaceXAMLVisualizer.exp
+  HDFaceVisualizer.vcxproj -> C:\Users\Dwight\Documents\Visual Studio 2013\Projects\HDFaceBasics-SkinHairColor-XAML_CPP\Debug\HDFaceVisualizer\HDFaceXAMLVisualizer.dll
+  Microsoft (R) Direct3D Shader Compiler 6.3.9600.16384
+  Copyright (C) 2013 Microsoft. All rights reserved.
+  
+  compilation code save succeeded; see C:\Users\Dwight\Documents\Visual Studio 2013\Projects\HDFaceBasics-SkinHairColor-XAML_CPP\Debug\HDFaceVisualizer\HDFacePixelShader.csol
