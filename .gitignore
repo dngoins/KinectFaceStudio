@@ -1,2 +1,4 @@
 *.suo
 *.sdf
+*.cache
+*.opensdf
