@@ -39,6 +39,8 @@ MainPage::MainPage() :
 	bodyReader(nullptr),
 	highDefinitionFaceFrameSource(nullptr),
 	highDefinitionFaceFrameReader(nullptr),
+	m_faceFrameSource(nullptr),
+	m_faceFrameReader(nullptr),
 	currentFaceAlignment(nullptr),
 	currentFaceModel(nullptr),
 	cachedFaceIndices(nullptr),
@@ -161,7 +163,7 @@ void MainPage::OnNavigatedTo(NavigationEventArgs^ /* e */)
 
 void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::Page_Loaded(Platform::Object^ /* sender */, Windows::UI::Xaml::RoutedEventArgs^ /* e */)
 {
-	
+	this->InitializeFace();
 	this->InitializeHDFace();
 	this->InitializeKinectColor();
 	this->sensor->Open();
@@ -178,6 +180,15 @@ void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::InitializeKinec
 
 	// Calculate the WriteableBitmap back buffer size
 	//this->bitmapBackBufferSize = (UINT)((this->bitmap->BackBufferStride * (this->bitmap->PixelHeight - 1)) + (this->bitmap->PixelWidth * this->bytesPerPixel));
+
+}
+
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::InitializeFace()
+{
+	this->m_faceFrameSource = ref new FaceFrameSource(this->sensor, 0, FaceFrameFeatures::PointsInColorSpace | FaceFrameFeatures::BoundingBoxInColorSpace | FaceFrameFeatures::BoundingBoxInInfraredSpace | FaceFrameFeatures::PointsInInfraredSpace);
+
+	this->m_faceFrameReader = this->m_faceFrameSource->OpenReader();
+	this->m_faceFrameReader->FrameArrived += ref new Windows::Foundation::TypedEventHandler<Microsoft::Kinect::Face::FaceFrameReader ^, Microsoft::Kinect::Face::FaceFrameArrivedEventArgs ^>(this, &DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::OnFrameArrived);
 
 }
 
@@ -211,7 +222,8 @@ void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::InitializeHDFac
 /// Sends the new deformed mesh to be drawn
 /// </summary>
 void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::UpdateFaceMesh()
-{
+{	
+
 	auto faceVertices = this->currentFaceModel->CalculateVerticesForAlignment(this->currentFaceAlignment);
 	Array<CameraSpacePoint>^ faceVerts = ref new Array<CameraSpacePoint> (faceVertices->Size);
 
@@ -227,12 +239,12 @@ void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::UpdateFaceMesh(
 
 	coordinateMapper->MapCameraPointsToColorSpace(faceVerts, facePoints);
 
-	//get the face region
-	auto faceRegion = this->currentFaceAlignment->FaceBoundingBox;
+	//get the face region in 2-d space
+	auto faceRegion = this->m_faceRegion; //this->currentFaceAlignment->FaceBoundingBox;
 	auto rendererSize = this->rendererParent->RenderSize;	
 	auto windowSize = this->RenderSize;
 
-	this->HDFaceRenderingPanel->UpdateMesh(faceVertices, this->cachedFaceIndices, facePoints);
+	this->HDFaceRenderingPanel->UpdateMesh(faceVertices, this->cachedFaceIndices, facePoints, faceRegion);
 
 	this->GetDeforms();
 }
@@ -296,6 +308,8 @@ void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::BodyReader_Fram
 	this->currentTrackingId = trackingID;
 
 	this->highDefinitionFaceFrameSource->TrackingId = this->currentTrackingId;
+	this->m_faceFrameSource->TrackingId = this->currentTrackingId;
+
 }
 
 /// <summary>
@@ -1154,5 +1168,19 @@ void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::showMesh_Click(
 	{
 		auto _show = showMesh->IsChecked;
 		this->HDFaceRenderingPanel->ShowMesh = _show->Value;
+	}
+}
+
+
+void DwightGoins::Utilities::Kinect::KinectFaceStudio::MainPage::OnFrameArrived(Microsoft::Kinect::Face::FaceFrameReader ^sender, Microsoft::Kinect::Face::FaceFrameArrivedEventArgs ^args)
+{
+	auto faceFrame = this->m_faceFrameReader->AcquireLatestFrame();
+	if (nullptr != faceFrame)
+	{
+		if (nullptr != faceFrame->FaceFrameResult)
+		{
+			 m_faceRegion = faceFrame->FaceFrameResult->FaceBoundingBoxInColorSpace;
+			
+		}
 	}
 }

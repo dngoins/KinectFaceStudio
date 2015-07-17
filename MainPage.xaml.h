@@ -91,6 +91,7 @@ namespace DwightGoins
 
 					static const int        cColorWidth = 1920;
 					static const int        cColorHeight = 1080;
+					RectI					m_faceRegion;
 
 					/// <summary>
 					/// Helper function to format a status message
@@ -145,10 +146,14 @@ namespace DwightGoins
 					/// </summary>
 					HighDefinitionFaceFrameSource^ highDefinitionFaceFrameSource;
 
+					FaceFrameSource^			m_faceFrameSource;
+
 					/// <summary>
 					/// HighDefinitionFaceFrameReader to read HighDefinitionFaceFrame to get FaceAlignment
 					/// </summary>
 					HighDefinitionFaceFrameReader^ highDefinitionFaceFrameReader;
+
+					FaceFrameReader^				m_faceFrameReader;
 
 					/// <summary>
 					/// FaceAlignment is the result of tracking a face, it has face animations location and orientation
@@ -206,7 +211,7 @@ namespace DwightGoins
 					/// Initialize Kinect object
 					/// </summary>
 					void InitializeHDFace();
-
+					void InitializeFace();
 					void InitializeKinectColor();
 					/// <summary>
 					/// This event is fired when a new HDFace frame is ready for consumption
@@ -317,6 +322,7 @@ namespace DwightGoins
 					void showVideo_Checked(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 					void showVideo_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 					void showMesh_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+					void OnFrameArrived(Microsoft::Kinect::Face::FaceFrameReader ^sender, Microsoft::Kinect::Face::FaceFrameArrivedEventArgs ^args);
 };
 	
 					/*auto AsInspectable(Object^ const object) -> Microsoft::WRL::ComPtr<IInspectable>

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HDFaceBasics-SkinHairColor-XAML_CPP", "HDFaceBasics-SkinHairColor-XAML_CPP.vcxproj", "{0C472021-5C54-47DF-9BEB-EC125CF597FE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KinectFaceStudio", "HDFaceBasics-SkinHairColor-XAML_CPP.vcxproj", "{0C472021-5C54-47DF-9BEB-EC125CF597FE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HDFaceXAMLVisualizer", "HDFaceVisualizer\HDFaceVisualizer.vcxproj", "{53063DB1-53C4-4149-B0FD-DD019114181E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeHelpers", "NativeHelpers\NativeHelpers.vcxproj", "{938E65D0-EC9C-4181-87CA-A43D4747610D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,18 @@ Global
 		{53063DB1-53C4-4149-B0FD-DD019114181E}.Release|Win32.Build.0 = Release|Win32
 		{53063DB1-53C4-4149-B0FD-DD019114181E}.Release|x64.ActiveCfg = Release|x64
 		{53063DB1-53C4-4149-B0FD-DD019114181E}.Release|x64.Build.0 = Release|x64
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Debug|Win32.Build.0 = Debug|Win32
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Debug|x64.ActiveCfg = Debug|Win32
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Release|Any CPU.ActiveCfg = Release|Win32
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Release|Win32.ActiveCfg = Release|Win32
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Release|Win32.Build.0 = Release|Win32
+		{938E65D0-EC9C-4181-87CA-A43D4747610D}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
