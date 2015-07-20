@@ -867,6 +867,7 @@ void CFaceBasics::CheckHDFacePoint(int x, int y)
 		//get the height minus the menu
 		auto height = currentRect.bottom - currentRect.top - titleThickness;
 		
+		
 		if (width > 0 && height > 0)
 		{
 			//the image is displayed within the client area.
@@ -879,6 +880,10 @@ void CFaceBasics::CheckHDFacePoint(int x, int y)
 			//so let's convert them to the squeezed 1920x1080 region
 			m_pDrawDataStreams->m_mouseX =  (float(x) / xScale);
 			m_pDrawDataStreams->m_mouseY =  (float(y) / yScale );
+
+			m_pDrawDataStreams->m_windowHeight = height / yScale;
+			m_pDrawDataStreams->m_windowWidth = width / xScale;
+
 		}
 	}
 }

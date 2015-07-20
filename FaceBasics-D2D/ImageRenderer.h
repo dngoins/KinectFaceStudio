@@ -78,6 +78,8 @@ public:
 	bool			m_drawHDFacePoints;
 	float			m_mouseX;
 	float			m_mouseY;
+	float			m_windowWidth;
+	float			m_windowHeight;
 
 private:
     /// <summary>
@@ -121,6 +123,8 @@ private:
     ID2D1HwndRenderTarget*   m_pRenderTarget;
     ID2D1Bitmap*             m_pBitmap;
     ID2D1SolidColorBrush*    m_pFaceBrush[BODY_COUNT];
+	ID2D1SolidColorBrush*	 m_pFadeBrush[BODY_COUNT];
+	ID2D1SolidColorBrush*	 m_pBlackBrush;
 
     // DirectWrite
     IDWriteFactory*		     m_pDWriteFactory;

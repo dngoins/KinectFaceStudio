@@ -13,8 +13,8 @@ using namespace DirectX;
 static const float c_FaceBoxThickness = 6.0f;
 static const float c_FacePointThickness = 10.0f;
 static const float c_FacePointRadius = 1.0f;
-static const float c_hdFacePointThickness = 5.0f;
-static const float c_hdFacePointRadius = 0.5f;
+static const float c_hdFacePointThickness = 3.0f;
+static const float c_hdFacePointRadius = 1.0f;
 static const float c_FacePropertyFontSize = 32.0f;
 static const double c_FaceRotationIncrementInDegrees = 5.0f;
 
@@ -38,11 +38,15 @@ ImageRenderer::ImageRenderer() :
 	m_drawFacePoints(false),
 	m_drawHDFacePoints(false),
 	m_mouseX(0.0f),
-	m_mouseY(0.0f)
+	m_mouseY(0.0f),
+	m_pBlackBrush(nullptr),
+	m_windowWidth(0.0f),
+	m_windowHeight(0.0f)
 {
     for (int i = 0; i < BODY_COUNT; i++)
     {
         m_pFaceBrush[i] = nullptr;
+		m_pFadeBrush[i] = nullptr;
     }
 }
 
@@ -90,34 +94,42 @@ HRESULT ImageRenderer::EnsureResources()
                 );
         }
 
+		hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Black, 2.0f)), &m_pBlackBrush);
+
         if (SUCCEEDED(hr))
         {
             hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Red, 2.0f)), &m_pFaceBrush[0]);
+			hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Red, 0.7f)), &m_pFadeBrush[0]);
         }
 
         if (SUCCEEDED(hr))
         {
-            hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Green, 2.0f)), &m_pFaceBrush[1]);			
+            hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Green, 2.0f)), &m_pFaceBrush[1]);
+			hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Green, 0.7f)), &m_pFadeBrush[1]);
         }
 
         if (SUCCEEDED(hr))
         {
-            hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::White, 2.0f)), &m_pFaceBrush[2]);			
+            hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::White, 2.0f)), &m_pFaceBrush[2]);
+			hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::White, 0.7f)), &m_pFadeBrush[2]);
         }
 
         if (SUCCEEDED(hr))
         {
-            hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Purple, 2.0f)), &m_pFaceBrush[3]);			
+            hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Purple, 2.0f)), &m_pFaceBrush[3]);
+			hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Purple, 0.7f)), &m_pFadeBrush[3]);
         }
 
         if (SUCCEEDED(hr))
         {
-            hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Orange, 2.0f)), &m_pFaceBrush[4]);			
+            hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Orange, 2.0f)), &m_pFaceBrush[4]);
+			hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Orange, 0.7f)), &m_pFadeBrush[4]);
         }
 
         if (SUCCEEDED(hr))
         {
-            hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Pink, 2.0f)), &m_pFaceBrush[5]);					
+            hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Pink, 2.0f)), &m_pFaceBrush[5]);
+			hr = m_pRenderTarget->CreateSolidColorBrush((D2D1::ColorF(D2D1::ColorF::Pink, 0.7f)), &m_pFadeBrush[5]);
         }        
     }
 
@@ -137,7 +149,9 @@ void ImageRenderer::DiscardResources()
     for (int i = 0; i < BODY_COUNT; i++)
     {
         SafeRelease(m_pFaceBrush[i]);
+		SafeRelease(m_pFadeBrush[i]);
     }
+	SafeRelease(m_pBlackBrush);
     SafeRelease(m_pRenderTarget);
     SafeRelease(m_pBitmap);
 }
@@ -296,15 +310,18 @@ void ImageRenderer::DrawFaceFrameResults(int iFace, const RectI* pFaceBox, const
         ID2D1SolidColorBrush* brush = m_pFaceBrush[iFace];
 		ID2D1SolidColorBrush* secondBrush = nullptr;
 		ID2D1SolidColorBrush* thirdBrush = nullptr;
+		ID2D1SolidColorBrush* bgBrush = nullptr;
 
 		if (iFace >= 2)
 		{
 			secondBrush = m_pFaceBrush[iFace-1];
 			thirdBrush = m_pFaceBrush[iFace - 2];
+			bgBrush = m_pFadeBrush[iFace - 2];
 		}
 		else {
 			secondBrush = m_pFaceBrush[iFace  + 1];
 			thirdBrush = m_pFaceBrush[iFace + 2];
+			bgBrush = m_pFadeBrush[iFace + 2];
 		}
 
 		if (m_drawFaceBox)
@@ -345,26 +362,34 @@ void ImageRenderer::DrawFaceFrameResults(int iFace, const RectI* pFaceBox, const
 					auto mY = m_mouseY ;
 					auto circleRadius = c_hdFacePointRadius;
 
-					if ((pow((mX - cX), 2) + pow((mY - cY), 2)) <= (pow(circleRadius, 2) + 1))
+					if ((pow((mX - cX), 2) + pow((mY - cY), 2)) <= (pow(circleRadius, 2) * 13))
 					{
+						auto fillingWidth = m_windowWidth - left;
 						D2D1_RECT_F layoutRect = D2D1::RectF(left , top,
-							left + c_TextLayoutWidth + 200,
-							top + c_TextLayoutHeight);
+							fillingWidth ,
+							top + 200.0f);
 
-						faceText = L"HD FaceIndex: " + std::to_wstring(i);
+						D2D1_ROUNDED_RECT rrect = {};
+						rrect.radiusX =  50;
+						rrect.radiusY =  50;
+						rrect.rect = layoutRect;
+
+						m_pRenderTarget->FillRoundedRectangle(&rrect, bgBrush);
+
+						faceText += L" HD#: " + std::to_wstring(i);
 						m_pRenderTarget->DrawTextW(faceText.c_str(),
 							static_cast<UINT32>(faceText.length()),
 							m_pTextFormat,
 							layoutRect,
-							thirdBrush);
-						faceText = L"";
+							m_pBlackBrush);
+						
 					}
 					
 					D2D1_ELLIPSE hdfacePoint = D2D1::Ellipse(D2D1::Point2F(pFaceHDColors[i].X, pFaceHDColors[i].Y), c_hdFacePointRadius, c_hdFacePointRadius);
 					m_pRenderTarget->DrawEllipse(hdfacePoint, thirdBrush, c_hdFacePointThickness);
 					
 				}
-
+				faceText = L"";
 			}
 		}
         
