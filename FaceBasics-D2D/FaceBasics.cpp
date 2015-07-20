@@ -8,7 +8,6 @@
 #include <strsafe.h>
 #include "resource.h"
 #include "FaceBasics.h"
-#include "PerMonitorDPIHelpers.h"
 
 // face property text layout offset in X axis
 static const float c_FaceTextLayoutOffsetX = -0.1f;
