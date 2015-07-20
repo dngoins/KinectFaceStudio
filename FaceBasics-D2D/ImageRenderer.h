@@ -76,8 +76,8 @@ public:
 	bool			m_drawFaceBox;
 	bool			m_drawFacePoints;
 	bool			m_drawHDFacePoints;
-	int				m_mouseX;
-	int				m_mouseY;
+	float			m_mouseX;
+	float			m_mouseY;
 
 private:
     /// <summary>

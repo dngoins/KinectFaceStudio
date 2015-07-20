@@ -36,7 +36,9 @@ ImageRenderer::ImageRenderer() :
     m_pDWriteFactory(nullptr),
 	m_drawFaceBox(false),
 	m_drawFacePoints(false),
-	m_drawHDFacePoints(false)
+	m_drawHDFacePoints(false),
+	m_mouseX(0.0f),
+	m_mouseY(0.0f)
 {
     for (int i = 0; i < BODY_COUNT; i++)
     {
@@ -292,6 +294,18 @@ void ImageRenderer::DrawFaceFrameResults(int iFace, const RectI* pFaceBox, const
     {
 		std::wstring faceText = L"";
         ID2D1SolidColorBrush* brush = m_pFaceBrush[iFace];
+		ID2D1SolidColorBrush* secondBrush = nullptr;
+		ID2D1SolidColorBrush* thirdBrush = nullptr;
+
+		if (iFace >= 2)
+		{
+			secondBrush = m_pFaceBrush[iFace-1];
+			thirdBrush = m_pFaceBrush[iFace - 2];
+		}
+		else {
+			secondBrush = m_pFaceBrush[iFace  + 1];
+			thirdBrush = m_pFaceBrush[iFace + 2];
+		}
 
 		if (m_drawFaceBox)
 		{
@@ -310,44 +324,45 @@ void ImageRenderer::DrawFaceFrameResults(int iFace, const RectI* pFaceBox, const
 			{
 				
 				D2D1_ELLIPSE facePoint = D2D1::Ellipse(D2D1::Point2F(pFacePoints[i].X, pFacePoints[i].Y), c_FacePointRadius, c_FacePointRadius);
-				m_pRenderTarget->DrawEllipse(facePoint, brush, c_FacePointThickness);
+				m_pRenderTarget->DrawEllipse(facePoint, secondBrush, c_FacePointThickness);
 			}
 		}
 
 		if (m_drawHDFacePoints)
 		{
 			if (nullptr != pFaceHDColors)
-			{
-
-				
+			{				
 
 				UINT hdColorPointCount = HD_COLOR_SPACE_COUNT;
 				//draw each hd face point
 				for (int i = 0; i < hdColorPointCount; i++)
-				{
-
-					auto mX = m_mouseX;
+				{					
 					auto cX = pFaceHDColors[i].X;
-					auto mY = m_mouseY;
+					auto mX = m_mouseX ;
+					auto left = 100;
+					auto top = 100;
 					auto cY = pFaceHDColors[i].Y;
+					auto mY = m_mouseY ;
 					auto circleRadius = c_hdFacePointRadius;
 
-					if ((pow((mX - cX), 2) + pow((mY - cY), 2)) <= pow(circleRadius, 1))
+					if ((pow((mX - cX), 2) + pow((mY - cY), 2)) <= (pow(circleRadius, 2) + 1))
 					{
-						D2D1_RECT_F layoutRect = D2D1::RectF(mX, mY,
-							mX + c_TextLayoutWidth,
-							mY + c_TextLayoutHeight);
+						D2D1_RECT_F layoutRect = D2D1::RectF(left , top,
+							left + c_TextLayoutWidth + 200,
+							top + c_TextLayoutHeight);
 
 						faceText = L"HD FaceIndex: " + std::to_wstring(i);
 						m_pRenderTarget->DrawTextW(faceText.c_str(),
 							static_cast<UINT32>(faceText.length()),
 							m_pTextFormat,
 							layoutRect,
-							brush);
+							thirdBrush);
+						faceText = L"";
 					}
-
+					
 					D2D1_ELLIPSE hdfacePoint = D2D1::Ellipse(D2D1::Point2F(pFaceHDColors[i].X, pFaceHDColors[i].Y), c_hdFacePointRadius, c_hdFacePointRadius);
-					m_pRenderTarget->DrawEllipse(hdfacePoint, brush, c_hdFacePointThickness);
+					m_pRenderTarget->DrawEllipse(hdfacePoint, thirdBrush, c_hdFacePointThickness);
+					
 				}
 
 			}

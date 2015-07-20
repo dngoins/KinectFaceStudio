@@ -8,6 +8,7 @@
 #include <strsafe.h>
 #include "resource.h"
 #include "FaceBasics.h"
+#include "PerMonitorDPIHelpers.h"
 
 // face property text layout offset in X axis
 static const float c_FaceTextLayoutOffsetX = -0.1f;
@@ -856,7 +857,29 @@ void CFaceBasics::CheckHDFacePoint(int x, int y)
 {
 	if (nullptr != m_pDrawDataStreams)
 	{
-		m_pDrawDataStreams->m_mouseX = x;
-		m_pDrawDataStreams->m_mouseY = y;
+		RECT currentRect = {};
+		//get the client area where the HD Image is displayed
+		GetClientRect(m_hWnd, &currentRect);
+	
+		//Client area also includes menu title bar so get it's size too
+		int titleThickness = GetSystemMetrics(SM_CYCAPTION);
+
+		auto width = currentRect.right - currentRect.left;
+		//get the height minus the menu
+		auto height = currentRect.bottom - currentRect.top - titleThickness;
+		
+		if (width > 0 && height > 0)
+		{
+			//the image is displayed within the client area.
+			//it's an HD Image 1920x1080 squeezed into the client area
+			//so let's get the xScale squeeze and the yScale squeeze
+			float xScale = width / 1920.0f;
+			float yScale = height / 1080.0f;
+
+			//the current mouse position is based on the client/window region x, y coordinates
+			//so let's convert them to the squeezed 1920x1080 region
+			m_pDrawDataStreams->m_mouseX =  (float(x) / xScale);
+			m_pDrawDataStreams->m_mouseY =  (float(y) / yScale );
+		}
 	}
 }

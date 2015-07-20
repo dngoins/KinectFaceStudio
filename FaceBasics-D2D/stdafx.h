@@ -24,6 +24,12 @@
 #include <Kinect.h>
 #include <Kinect.Face.h>
 
+#include <ShellScalingApi.h>
+
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "shcore.lib")
+#pragma comment(lib, "Gdi32.lib")
+
 #pragma comment (lib, "d2d1.lib")
 
 #ifdef _UNICODE
